@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 
 import Layout from './containers/hoc/Layout/Layout';
@@ -8,12 +9,14 @@ import Checkout from './containers/Checkout/Checkout';
 class App extends Component {
   render() {
     return (
-      <div>
-        <Layout>
-          <BurgerBuilder />
-          <Checkout />
-        </Layout>
-      </div>
+      <BrowserRouter>
+        <div>
+          <Layout>
+            <Route path="/" exact component={BurgerBuilder} />
+            <Route path="/checkout" exact component={Checkout} />
+          </Layout>
+        </div>
+      </BrowserRouter>
     );
   }
 }
