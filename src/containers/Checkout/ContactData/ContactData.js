@@ -19,7 +19,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 }, 
-                valid: false
+                valid: false,
+                touched: false
             },
             street: {
                 elementType: 'input',
@@ -31,7 +32,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             zipcode: {
                 elementType: 'input',
@@ -45,7 +47,8 @@ class ContactData extends Component {
                     minLength: 5,
                     maxLength: 5
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             country: {
                 elementType: 'input',
@@ -57,7 +60,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             email: {
                 elementType: 'input',
@@ -69,7 +73,8 @@ class ContactData extends Component {
                 validation: {
                     required: true
                 },
-                valid: false
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 elementType: 'select',
@@ -110,6 +115,7 @@ class ContactData extends Component {
 
     isValid(value, rules) {
         let isValid = true;
+
         if (rules.required) {
             isValid = value.trim() !== '' && isValid;
         }
@@ -128,10 +134,12 @@ class ContactData extends Component {
     inputChangedHandler = (event, inputIdentifier) => {
         // copy of outer form object. name, email, ect...
         const updatedOrderForm = { ...this.state.orderForm }
+        console.log(updatedOrderForm)
         // copy of inner form object. type, config, value
         const updatedFormEle = { ...updatedOrderForm[inputIdentifier] };
         updatedFormEle.value = event.target.value;
         updatedFormEle.valid = this.isValid(updatedFormEle.value, updatedFormEle.validation)
+        updatedFormEle.touched = true
         updatedOrderForm[inputIdentifier] = updatedFormEle;
         this.setState({orderForm: updatedOrderForm})
     }
@@ -152,6 +160,9 @@ class ContactData extends Component {
                         elementType={formEle.config.elementType} 
                         elementConfig={formEle.config.elementConfig}
                         value={formEle.config.value}
+                        invalid={!formEle.config.valid}
+                        shouldValidate={formEle.config.validation}
+                        touched={formEle.config.touched}
                         changed={(event) => this.inputChangedHandler(event, formEle.id)} />
                 ))}
                 <Button btnType="Success">ORDER</Button>
